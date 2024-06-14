@@ -18,24 +18,21 @@ import { NextRequest, NextResponse } from "next/server"
 // }
 
 export async function middleware(req: NextRequest) {
-  const { nextUrl: url, geo } = req
-  console.log("url:", url)
-  console.log("geo:", geo)
+  const ip = req?.ip
+  console.log("CHIFSA IP", ip)
+  //if the project is not uploaded to vercel, you can use the header "X=Forwarded-For"
+  //let ip = request.headers.get('X-Forwarded-For')
+  //and the we have to use external service to extract the geo location of the ip
 
-  const country = geo?.country || "UNKNOWN"
-  const city = geo?.city || "UNKNOWN"
-  const region = geo?.region || "UNKNOWN"
-
-  url.searchParams.set("country", country)
-  url.searchParams.set("city", city)
-  url.searchParams.set("region", region)
+  //Provided by vercel
+  const geo = req?.geo
+  console.log("CHIFSA GEO", geo)
 
   //set headers for all
-  return NextResponse.rewrite(url, {
+  return NextResponse.next({
     headers: {
-      "x-country": country,
-      "x-city": city,
-      "x-region": region,
+      "X-Client-IP": ip || "UNKNOWN",
+      "X-Client-Geo": JSON.stringify(geo) || "UNKNOWN",
     },
   })
 }

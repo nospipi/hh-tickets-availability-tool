@@ -4,12 +4,14 @@ import moment from "moment"
 export async function GET(req: NextRequest) {
   //Provided by vercel
   const ip = req?.ip
+  console.log("NextRequest IP", ip)
   //if the project is not uploaded to vercel, you can use the header "X=Forwarded-For"
   //let ip = request.headers.get('X-Forwarded-For')
   //and the we have to use external service to extract the geo location of the ip
 
   //Provided by vercel
   const geo = req?.geo
+  console.log("NextRequest GEO", geo)
 
   // Prepare the visitor data
   //   const visitorData = {
