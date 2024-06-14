@@ -6,8 +6,8 @@ function TrackVisitor() {
     const logVisitorDetails = async () => {
       try {
         const response = await fetch("/server/api/visitor-details")
-
-        console.log("Visitor Data:", response)
+        const data = await response.json()
+        console.log("Visitor Data:", data)
       } catch (error) {
         console.error("Error logging visitor details:", error)
       }
