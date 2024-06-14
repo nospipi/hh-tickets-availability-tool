@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import connectDb from "./server/db.connect"
 import "./globals.css"
 import StyledComponentsRegistry from "@/styled_components_registry"
 import { GlobalContextProvider } from "./ContextProvider"
@@ -19,7 +18,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  await connectDb()
   return (
     <ReactQueryClientProvider>
       <GlobalContextProvider>
