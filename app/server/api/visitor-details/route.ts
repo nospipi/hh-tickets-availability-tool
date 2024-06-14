@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import moment from "moment"
-//@ts-ignore
-import { AvailabilityToolVisitorModel } from "getaways-projects-common-files/models/models.js"
+const {
+  AvailabilityToolVisitorModel,
+} = require("getaways-projects-common-files/models/models.js")
 
 export const GET = async (req: NextRequest) => {
   const ip = req?.headers.get("X-Client-IP")
@@ -17,7 +18,7 @@ export const GET = async (req: NextRequest) => {
       latitude: parsedGeo?.latitude,
       longitude: parsedGeo?.longitude,
       region: parsedGeo?.region,
-      timestamp: new Date().toISOString(),
+      timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
     })
 
     const shouldSave = ip !== "UNKNOWN" && parsedGeo?.city !== "UNKNOWN"
@@ -29,8 +30,9 @@ export const GET = async (req: NextRequest) => {
       console.log("Visitor data not recorded")
     }
 
-    return NextResponse.json("Visitor data logged successfully")
+    return NextResponse.json("Visitor data recorded successfully")
   } catch (e) {
     console.log("ERROR IN MIDDLEWARE", e)
+    return NextResponse.json("Visitor data not recorded")
   }
 }
