@@ -1,8 +1,0 @@
-.list-container{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;    
-  padding: 10px;
-  overflow-y: auto;
-}

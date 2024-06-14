@@ -6,7 +6,20 @@
 
 html,
 body {
-  max-width: 100vw;
   overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+.rs-picker-popup {
+  margin-top: 5px !important;
+}
+.rs-input {
+  font-size: 11px !important;
+}
+.rs-btn {
+  font-size: 11px !important;
 }
 
+.rs-calendar-table-cell-day {
+  font-size: 11px !important;
+}
