@@ -4,17 +4,14 @@ import axios from "axios"
 
 function TrackVisitor() {
   useEffect(() => {
-    const logVisitorDetails = async () => {
+    const triggerVisitorDetails = async () => {
       try {
-        const response = await axios.get("/server/api/visitor-details")
-
-        console.log("Visitor Data from CLIENT:", response.data)
+        await axios.get("/server/api/visitor-details")
       } catch (error) {
-        console.error("Error logging visitor details:", error)
+        console.error("Error getting visitor details:", error)
       }
     }
-
-    logVisitorDetails()
+    triggerVisitorDetails()
   }, [])
 
   return null

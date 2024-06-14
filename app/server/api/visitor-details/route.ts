@@ -1,31 +1,27 @@
 import { NextRequest, NextResponse } from "next/server"
 import moment from "moment"
+//@ts-ignore
+import { AvailabilityToolVisitorModel } from "getaways-projects-common-files/models/models.js"
 
 export async function GET(req: NextRequest) {
-  //Provided by vercel
-  const ip = req?.ip
-  console.log("NextRequest IP", ip)
-  //if the project is not uploaded to vercel, you can use the header "X=Forwarded-For"
-  //let ip = request.headers.get('X-Forwarded-For')
-  //and the we have to use external service to extract the geo location of the ip
+  const ip = req?.headers.get("X-Client-IP")
+  const geo = req?.headers.get("X-Client-Geo")
 
-  //Provided by vercel
-  const geo = req?.geo
-  console.log("NextRequest GEO", geo)
+  console.log("WWWWWWWWWWWWWWWW IP", ip)
+  console.log("WWWWWWWWWWWWWWWW GEO", geo)
 
-  // Prepare the visitor data
-  //   const visitorData = {
+  // // Insert the data into MongoDB
+  //   const newVisitor = new AvailabilityToolVisitorModel({
   //     ip,
-  //     geo,
-  //     timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
-  //   }
-  console.log("NextRequest IP", ip)
-  console.log("NextRequest GEO", geo)
-  console.log("NextRequest HEADER IP", req?.headers)
-  console.log("NextRequest HEADER IP", req?.headers.get("X-Client-IP"))
-  console.log("NextRequest HEADER GEO", req?.headers.get("X-Client-Geo"))
+  //     city: geo?.city,
+  //     country: geo?.country,
+  //     latitude: geo?.latitude,
+  //     longitude: geo?.longitude,
+  //     region: geo?.region,
+  //     timestamp: new Date().toISOString(),
+  //   })
 
-  // Insert the data into MongoDB
+  //   await newVisitor.save()
 
-  return NextResponse.json({ message: "Hello - GET" }, { status: 200 })
+  return NextResponse.json("Visitor data logged successfully")
 }

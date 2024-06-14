@@ -1,5 +1,4 @@
 // @ts-ignore
-import { TicketsAvailabilityModel } from "getaways-projects-common-files"
 import { NextResponse, NextRequest } from "next/server"
 //-------------------------------------
 
