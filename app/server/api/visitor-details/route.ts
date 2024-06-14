@@ -1,20 +1,15 @@
 import { NextRequest, NextResponse } from "next/server"
-import { NextApiRequest, NextApiResponse } from "next"
 import moment from "moment"
 
-export async function GET(
-  request: NextRequest,
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export async function GET(req: NextRequest) {
   //Provided by vercel
-  const ip = request?.ip
+  const ip = req?.ip
   //if the project is not uploaded to vercel, you can use the header "X=Forwarded-For"
   //let ip = request.headers.get('X-Forwarded-For')
   //and the we have to use external service to extract the geo location of the ip
 
   //Provided by vercel
-  const geo = request?.geo
+  const geo = req?.geo
 
   // Prepare the visitor data
   //   const visitorData = {
@@ -22,8 +17,10 @@ export async function GET(
   //     geo,
   //     timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
   //   }
-  console.log("request: NextRequest from route.js", request)
-  console.log("req: NextApiRequest from route.js", req)
+  console.log("NextRequest IP", ip)
+  console.log("NextRequest GEO", geo)
+  console.log("NextRequest HEADER IP", req?.headers.get("X-Client-IP"))
+  console.log("NextRequest HEADER GEO", req?.headers.get("X-Client-Geo"))
 
   // Insert the data into MongoDB
 

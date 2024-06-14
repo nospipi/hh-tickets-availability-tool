@@ -8,8 +8,8 @@ export function middleware(request: NextRequest) {
   // Add the IP and geo data to the request headers (optional)
   const response = NextResponse.next()
 
-  response.headers.set("X-Client-IP", ip || "")
-  response.headers.set("X-Client-Geo", JSON.stringify(geo) || "{}")
+  response.headers.set("X-Client-IP", ip || "UNKNOWN")
+  response.headers.set("X-Client-Geo", JSON.stringify(geo) || "UNKNOWN")
 
   return response
 }
