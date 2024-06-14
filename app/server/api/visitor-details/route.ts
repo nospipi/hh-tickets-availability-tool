@@ -5,23 +5,25 @@ import { AvailabilityToolVisitorModel } from "getaways-projects-common-files/mod
 
 export async function GET(req: NextRequest) {
   const ip = req?.headers.get("X-Client-IP")
-  const geo = req?.headers.get("X-Client-Geo")
-
-  console.log("WWWWWWWWWWWWWWWW IP", ip)
-  console.log("WWWWWWWWWWWWWWWW GEO", geo)
+  const geo = req?.headers.get("X-Client-Geo") || "{}"
+  const parsedGeo = JSON.parse(geo)
 
   // // Insert the data into MongoDB
-  //   const newVisitor = new AvailabilityToolVisitorModel({
-  //     ip,
-  //     city: geo?.city,
-  //     country: geo?.country,
-  //     latitude: geo?.latitude,
-  //     longitude: geo?.longitude,
-  //     region: geo?.region,
-  //     timestamp: new Date().toISOString(),
-  //   })
+  const newVisitor = new AvailabilityToolVisitorModel({
+    ip,
+    city: parsedGeo?.city,
+    country: parsedGeo?.country,
+    latitude: parsedGeo?.latitude,
+    longitude: parsedGeo?.longitude,
+    region: parsedGeo?.region,
+    timestamp: new Date().toISOString(),
+  })
 
-  //   await newVisitor.save()
+  const shouldSave = ip !== "UNKNOWN" && parsedGeo?.city !== "UNKNOWN"
+
+  if (shouldSave) {
+    await newVisitor.save()
+  }
 
   return NextResponse.json("Visitor data logged successfully")
 }
