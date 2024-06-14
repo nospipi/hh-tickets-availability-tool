@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
   //   }
   console.log("NextRequest IP", ip)
   console.log("NextRequest GEO", geo)
+  console.log("NextRequest HEADER IP", req?.headers)
   console.log("NextRequest HEADER IP", req?.headers.get("X-Client-IP"))
   console.log("NextRequest HEADER GEO", req?.headers.get("X-Client-Geo"))
 
