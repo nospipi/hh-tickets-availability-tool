@@ -23,6 +23,9 @@ export async function GET(req: NextRequest) {
 
   if (shouldSave) {
     await newVisitor.save()
+    console.log("Visitor data recorded successfully")
+  } else {
+    console.log("Visitor data not recorded")
   }
 
   return NextResponse.json("Visitor data logged successfully")
