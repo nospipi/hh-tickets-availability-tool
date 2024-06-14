@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
 
-export function middleware(request: NextRequest) {
+export function middleware(req: NextRequest) {
   // Extract IP address and geo data
-  const ip = request.ip
-  const geo = request.geo
+  const ip = req.ip
+  const { nextUrl: url, geo } = req
+
+  console.log("url:", url)
+  console.log("geo:", geo)
 
   // Add the IP and geo data to the request headers (optional)
   const response = NextResponse.next()
