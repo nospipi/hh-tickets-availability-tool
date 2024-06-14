@@ -22,14 +22,16 @@ export async function GET(
   //     geo,
   //     timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
   //   }
-  console.log(request)
-  console.log(req?.headers)
+  console.log("request from route.js", request)
+  console.log("req?.headers from route.js", req?.headers)
 
   // Insert the data into MongoDB
 
-  return NextResponse.json({
+  return res.json({
     // clientIp: clientIp,
     // clientGeo: clientGeo,
+    NextRequestReq: request,
+    NextApiRequestReq: req,
     timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
   })
 }
