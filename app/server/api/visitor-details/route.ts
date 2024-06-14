@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import moment from "moment"
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
   //Provided by vercel
   const ip = request.ip
   //if the project is not uploaded to vercel, you can use the header "X=Forwarded-For"
