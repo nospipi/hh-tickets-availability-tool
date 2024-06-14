@@ -1,21 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import moment from "moment"
-const mongoose = require("mongoose")
-
-const AvailabilityToolVisitorSchema = new mongoose.Schema({
-  ip: String,
-  city: String,
-  country: String,
-  latitude: Number,
-  longitude: Number,
-  region: String,
-  timestamp: String,
-})
-
-const AvailabilityToolVisitorModel = mongoose.model(
-  "AvailabilityToolVisitor",
-  AvailabilityToolVisitorSchema
-)
+import connectDB from "../../db.connect"
+const {
+  AvailabilityToolVisitorModel,
+} = require("getaways-projects-common-files/models/models.js")
 
 export const GET = async (req: NextRequest) => {
   const ip = req?.headers.get("X-Client-IP")
@@ -23,6 +11,8 @@ export const GET = async (req: NextRequest) => {
   const parsedGeo = JSON.parse(geo)
 
   try {
+    await connectDB()
+
     // // Insert the data into MongoDB
     const newVisitor = new AvailabilityToolVisitorModel({
       ip,
