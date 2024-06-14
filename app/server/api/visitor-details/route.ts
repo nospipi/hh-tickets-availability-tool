@@ -27,8 +27,5 @@ export async function GET(
 
   // Insert the data into MongoDB
 
-  res.status(200).json({
-    ip: ip,
-    geo: geo,
-  })
+  return NextResponse.json({ message: "Hello - GET" }, { status: 200 })
 }
