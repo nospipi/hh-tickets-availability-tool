@@ -22,17 +22,14 @@ export async function GET(
   //     geo,
   //     timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
   //   }
-
-  const clientIp = req.headers["X-Client-IP"] as string
-  const clientGeo = JSON.parse((req.headers["X-Client-Geo"] as string) || "{}")
-
-  console.log("clientIp", clientIp, "clientGeo", clientGeo)
+  console.log(request)
+  console.log(req?.headers)
 
   // Insert the data into MongoDB
 
   return NextResponse.json({
-    clientIp: clientIp,
-    clientGeo: clientGeo,
+    // clientIp: clientIp,
+    // clientGeo: clientGeo,
     timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
   })
 }
