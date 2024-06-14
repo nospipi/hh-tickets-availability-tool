@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import moment from "moment"
 import connectDB from "../../db.connect"
-import mongoose from "mongoose"
-const { Schema, model } = mongoose
+const { AvailabilityToolVisitorModel } = require("../..//models")
 
 export const GET = async (req: NextRequest) => {
   const ip = req?.headers.get("X-Client-IP")
@@ -12,22 +11,6 @@ export const GET = async (req: NextRequest) => {
   try {
     await connectDB()
 
-    const availabilityToolVisitorSchema = new Schema({
-      ip: String,
-      city: String,
-      country: String,
-      latitude: String,
-      longitude: String,
-      region: String,
-      timestamp: String,
-    })
-
-    const AvailabilityToolVisitorModel = model(
-      "AvailabilityToolVisitor",
-      availabilityToolVisitorSchema
-    )
-
-    // // Insert the data into MongoDB
     const newVisitor = new AvailabilityToolVisitorModel({
       ip: ip,
       city: parsedGeo?.city,
