@@ -20,5 +20,9 @@ export async function GET(request) {
 
   // Insert the data into MongoDB
 
-  return NextResponse.json(request)
+  return NextResponse.json({
+    ip: ip,
+    geo: geo,
+    timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
+  })
 }
