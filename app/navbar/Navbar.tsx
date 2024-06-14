@@ -1,8 +1,10 @@
+"use client"
+
 import styled from "styled-components"
 import { Formik } from "formik"
 import * as Yup from "yup"
 import { useState, useContext } from "react"
-import { GlobalContext } from "../page"
+import { GlobalContext } from "@/app/ContextProvider"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import DateRangeIcon from "@mui/icons-material/DateRange"
 import CachedIcon from "@mui/icons-material/Cached"

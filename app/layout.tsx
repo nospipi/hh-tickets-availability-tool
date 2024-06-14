@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import connectDb from "./server/db.connect"
 import "./globals.css"
 import StyledComponentsRegistry from "@/styled_components_registry"
+import { GlobalContextProvider } from "./ContextProvider"
 import { ReactQueryClientProvider } from "@/ReactQueryClientProvider"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -21,11 +22,13 @@ export default async function RootLayout({
   await connectDb()
   return (
     <ReactQueryClientProvider>
-      <StyledComponentsRegistry>
-        <html lang="en">
-          <body className={inter.className}>{children}</body>
-        </html>
-      </StyledComponentsRegistry>
+      <GlobalContextProvider>
+        <StyledComponentsRegistry>
+          <html lang="en">
+            <body className={inter.className}>{children}</body>
+          </html>
+        </StyledComponentsRegistry>
+      </GlobalContextProvider>
     </ReactQueryClientProvider>
   )
 }

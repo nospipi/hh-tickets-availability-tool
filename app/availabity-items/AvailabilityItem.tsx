@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useContext } from "react"
 import moment from "moment"
 import { useGetAvailabilityZones } from "@/react-query-hooks"
@@ -5,7 +7,7 @@ import styled from "styled-components"
 import CloseIcon from "@mui/icons-material/Close"
 import CachedIcon from "@mui/icons-material/Cached"
 import { RotatingLines } from "react-loader-spinner"
-import { GlobalContext } from "../page"
+import { GlobalContext } from "@/app/ContextProvider"
 import places from "../../places.json"
 
 //--------------------------------------------------------------------

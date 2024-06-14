@@ -1,7 +1,7 @@
 import AvailabilityItem from "../availabity-items/AvailabilityItem"
 import styled from "styled-components"
 import { useContext } from "react"
-import { GlobalContext } from "../page"
+import { GlobalContext } from "@/app/ContextProvider"
 
 //--------------------------------------------------------------------
 

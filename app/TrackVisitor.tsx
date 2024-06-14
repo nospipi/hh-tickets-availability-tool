@@ -1,4 +1,4 @@
-// components/TrackVisitor.js
+"use client"
 import { useEffect } from "react"
 
 function TrackVisitor() {
