@@ -8,13 +8,13 @@ export async function GET(
   res: NextApiResponse
 ) {
   //Provided by vercel
-  const ip = request.ip
+  const ip = request?.ip
   //if the project is not uploaded to vercel, you can use the header "X=Forwarded-For"
   //let ip = request.headers.get('X-Forwarded-For')
   //and the we have to use external service to extract the geo location of the ip
 
   //Provided by vercel
-  const geo = request.geo
+  const geo = request?.geo
 
   // Prepare the visitor data
   //   const visitorData = {
@@ -22,16 +22,13 @@ export async function GET(
   //     geo,
   //     timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
   //   }
-  console.log("request from route.js", request)
-  console.log("req?.headers from route.js", req?.headers)
+  console.log("request: NextRequest from route.js", request)
+  console.log("req: NextApiRequest from route.js", req)
 
   // Insert the data into MongoDB
 
-  return res.json({
-    // clientIp: clientIp,
-    // clientGeo: clientGeo,
-    NextRequestReq: request,
-    NextApiRequestReq: req,
-    timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
+  res.status(200).json({
+    ip: ip,
+    geo: geo,
   })
 }
