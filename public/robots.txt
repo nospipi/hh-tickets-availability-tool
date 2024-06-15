@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://hh-tickets-availability-tool.vercel.app/
+
+# Sitemaps
+Sitemap: https://hh-tickets-availability-tool.vercel.app/sitemap.xml
