@@ -8,10 +8,28 @@ import { ReactQueryClientProvider } from "@/ReactQueryClientProvider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Acropolis Tickets Availability Tool",
+  title: "HH Tickets Availability Tool",
   description:
-    "Check the live availability of tickets for the Acropolis site and set useful alerts",
-}
+    "Check the live availability of tickets for all greek archaeological sites and set useful alerts",
+  keywords: [
+    "acropolis tickets",
+    "acropolis tickets availability",
+    "acropolis tickets alert",
+    "acropolis tickets availability alert",
+    "acropolis tickets availability tool",
+    "acropolis tickets alert tool",
+    "acropolis tickets availability checker",
+    "greece archaeological sites tickets",
+    "greece archaeological sites tickets availability",
+    "greece archaeological sites tickets alert",
+    "greece archaeological sites tickets availability alert",
+    "acropolis e-tickets availability",
+    "acropolis online tickets availability alert",
+    "acropolis online tickets availability tool",
+    "acropolis online tickets availability checker",
+    "acropolis online tickets alert",
+  ],
+};
 
 export default async function RootLayout({
   children,
