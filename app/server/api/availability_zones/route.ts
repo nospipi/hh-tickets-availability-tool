@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server"
 import moment from "moment"
 const { TicketsAvailabilityModel } = require("../../models")
+import connectDB from "../../db.connect"
 //-------------------------------------
 
 const ETICKETS_URL = process.env.ETICKETS_URL
@@ -28,6 +29,7 @@ const getAvailabilityZones = async (placedate: string, place: string) => {
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
+  await connectDB()
   console.log("POST placedate")
   const { placedate, place } = await req.json()
   console.log("POST placedate", placedate, place)
