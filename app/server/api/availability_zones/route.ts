@@ -11,7 +11,6 @@ const TAPB2BGRAGENCYCREDS = process.env.TAPB2BGRAGENCYCREDS
 
 const getAvailabilityZones = async (placedate: string, place: string) => {
   try {
-    console.log("getAvailabilityZones")
     const response = await fetch(`${ETICKETS_URL}`, {
       method: "POST",
       headers: {
@@ -30,11 +29,9 @@ const getAvailabilityZones = async (placedate: string, place: string) => {
 
 export async function POST(req: NextRequest, res: NextResponse) {
   await connectDB()
-  console.log("POST placedate")
+
   const { placedate, place } = await req.json()
-  console.log("POST placedate", placedate, place)
   const id = `${place}${placedate}`
-  console.log("POST id", id)
 
   if (!placedate) {
     throw new Error("Date is required")
@@ -52,7 +49,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     //if zone does not exist, create and return
     if (!existingZone) {
-      console.log("zone does not exist")
       const zones = await getAvailabilityZones(placedate, place)
       const newZone = new TicketsAvailabilityModel({
         place,
@@ -66,13 +62,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     //if zone exists and is fresh, return
     if (existingZone && !existingZoneExpired) {
-      console.log("zone exists and is fresh")
       return NextResponse.json(existingZone)
     }
 
     //if zone exists but is expired (more than 30s old), refresh and return
     if (existingZone && existingZoneExpired) {
-      console.log("zone exists but is expired (more than 30s old)")
       const zones = await getAvailabilityZones(placedate, place)
       existingZone.slots = zones.slots
       existingZone.timestamp = new Date().toISOString()
