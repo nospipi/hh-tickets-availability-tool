@@ -1,17 +1,7 @@
-// @ts-ignore
 import { NextResponse, NextRequest } from "next/server"
+import moment from "moment"
+const { TicketsAvailabilityModel } = require("../../models")
 //-------------------------------------
-
-// export async function GET() {
-//   try {
-//     const products = await ProductsModel.find({
-//       isPublished: true,
-//     }).sort({ index: 1 })
-//     return NextResponse.json(products)
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
 
 const ETICKETS_URL = process.env.ETICKETS_URL
 const COOKIESESSION1 = process.env.COOKIESESSION1
@@ -31,31 +21,57 @@ const getAvailabilityZones = async (placedate: string, place: string) => {
     const data = await response.json()
     return data
   } catch (error) {
-    console.log("error getAvailabilityZones fn", error)
+    console.log("ERROR 1", error)
     return error
   }
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const { placedate, place } = await req.json()
-  //console.log("date", date)
-  //IN GET = console.log("req", req.nextUrl.searchParams.get("date"))
+  const id = `${place}${placedate}`
 
   if (!placedate) {
-    // return res.status(400).json({ error: "Date is required" })
     throw new Error("Date is required")
   }
 
   if (!place) {
-    // return res.status(400).json({ error: "Place is required" })
     throw new Error("Place is required")
   }
 
   try {
-    const zones = await getAvailabilityZones(placedate, place)
-    return NextResponse.json(zones)
+    const existingZone = await TicketsAvailabilityModel.findOne({ id })
+    const existingZoneExpired = moment(existingZone?.timestamp).isBefore(
+      moment().subtract(30, "seconds")
+    )
+
+    //if zone does not exist, create and return
+    if (!existingZone) {
+      const zones = await getAvailabilityZones(placedate, place)
+      const newZone = new TicketsAvailabilityModel({
+        place,
+        placedate,
+        slots: zones.slots,
+      })
+
+      await newZone.save()
+      return NextResponse.json(zones)
+    }
+
+    //if zone exists and is fresh, return
+    if (existingZone && !existingZoneExpired) {
+      return NextResponse.json(existingZone)
+    }
+
+    //if zone exists but is expired (more than 30s old), refresh and return
+    if (existingZone && existingZoneExpired) {
+      const zones = await getAvailabilityZones(placedate, place)
+      existingZone.slots = zones.slots
+      existingZone.timestamp = new Date().toISOString()
+      await existingZone.save()
+      return NextResponse.json(existingZone)
+    }
   } catch (e) {
-    console.log("error async function GET", e)
+    console.log("ERROR 2", e)
     return NextResponse.json(e)
   }
 }

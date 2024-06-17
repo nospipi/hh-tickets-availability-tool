@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 import moment from "moment"
 import connectDB from "../../db.connect"
 const { AvailabilityToolVisitorModel } = require("../..//models")
+// const {
+//   AvailabilityToolVisitorModel,
+// } = require("getaways-projects-common-files/models/models.js")
 
 export const GET = async (req: NextRequest) => {
   const ip = req?.headers.get("X-Client-IP")
@@ -11,19 +14,19 @@ export const GET = async (req: NextRequest) => {
   try {
     await connectDB()
 
-    const newVisitor = new AvailabilityToolVisitorModel({
-      ip: ip,
-      city: parsedGeo?.city,
-      country: parsedGeo?.country,
-      latitude: parsedGeo?.latitude,
-      longitude: parsedGeo?.longitude,
-      region: parsedGeo?.region,
-      timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
-    })
-
     const shouldSave = ip !== "UNKNOWN" && parsedGeo?.city !== "UNKNOWN"
 
     if (shouldSave) {
+      const newVisitor = new AvailabilityToolVisitorModel({
+        ip: ip,
+        city: parsedGeo?.city,
+        country: parsedGeo?.country,
+        latitude: parsedGeo?.latitude,
+        longitude: parsedGeo?.longitude,
+        region: parsedGeo?.region,
+        timestamp: moment().format("YYYY-MM-DD HH:mm:ss"),
+      })
+
       await newVisitor.save()
       console.log("Visitor data recorded successfully")
     } else {

@@ -31,6 +31,8 @@ export const useGetAvailabilityZones = (placedate: string, place: string) => {
     //every 5 seconds
     //refetchInterval: 5000,
     //every one minute
-    refetchInterval: 60000,
+    //refetchInterval: 60000,
+    //every 30 seconds
+    refetchInterval: 30000,
   })
 }
