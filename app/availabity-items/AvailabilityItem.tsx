@@ -147,7 +147,7 @@ const AvailabilityItem = ({
       >
         <TopContainer>
           <span
-            title={"Acropolis & Slopes"}
+            title={placeName}
             style={{
               color: "dodgerblue",
               fontWeight: 600,
@@ -184,9 +184,9 @@ const AvailabilityItem = ({
                 const updatedZoneDates = zoneDates.filter(
                   (item) =>
                     !(item.placedate === placedate && item.place === place)
-                )
+                );
                 //@ts-ignore
-                setZoneDates(updatedZoneDates)
+                setZoneDates(updatedZoneDates);
               }}
             />
           </div>
@@ -200,10 +200,10 @@ const AvailabilityItem = ({
           </thead>
           <tbody>
             {data?.slots?.map((slot: any) => {
-              const availNumber = slot.avail.replace(/\D/g, "")
-              const parsedNumber = parseInt(availNumber, 10)
-              const redZone = parsedNumber < 20
-              const isOrangeZone = parsedNumber < 50 && parsedNumber >= 20
+              const availNumber = slot.avail.replace(/\D/g, "");
+              const parsedNumber = parseInt(availNumber, 10);
+              const redZone = parsedNumber < 20;
+              const isOrangeZone = parsedNumber < 50 && parsedNumber >= 20;
               return (
                 <tr key={slot.zone}>
                   <Td>{slot.zone}</Td>
@@ -220,7 +220,7 @@ const AvailabilityItem = ({
                     {parsedNumber}
                   </Td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </Table>
@@ -276,7 +276,7 @@ const AvailabilityItem = ({
         </div>
       </BottomContainer>
     </AvailabilityItemContainer>
-  )
+  );
 }
 
 export default AvailabilityItem
