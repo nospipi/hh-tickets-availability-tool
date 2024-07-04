@@ -112,12 +112,16 @@ const AvailabilityItem = ({
     data,
     error,
     isLoading,
+    isError,
     isFetching,
     dataUpdatedAt,
     refetch,
     isRefetching,
   } = useGetAvailabilityZones(placedate, place)
   placedate
+
+  // console.log("data", data)
+  // console.log("error", isError)
 
   useEffect(() => {
     refetch()
@@ -128,9 +132,9 @@ const AvailabilityItem = ({
     return null
   }
 
-  if (error) {
-    return <span>Error: {error.message}</span>
-  }
+  // if (error) {
+  //   return <span>Error: {error.message}</span>
+  // }
   //console.log("data", data)
   const formattedDate = moment(placedate).format("DD/MM/YYYY ddd")
   const formattedUpdatedAt = moment(dataUpdatedAt).format("DD/MM/YYYY HH:mm:ss")
@@ -184,26 +188,40 @@ const AvailabilityItem = ({
                 const updatedZoneDates = zoneDates.filter(
                   (item) =>
                     !(item.placedate === placedate && item.place === place)
-                );
+                )
                 //@ts-ignore
-                setZoneDates(updatedZoneDates);
+                setZoneDates(updatedZoneDates)
               }}
             />
           </div>
         </TopContainer>
         <Table>
           <thead>
-            <tr>
-              <Th>Zone</Th>
-              <Th>Availability</Th>
-            </tr>
+            {error ? (
+              <tr>
+                <Th
+                  style={{
+                    color: "indianred",
+                    border: "none",
+                    backgroundColor: "white",
+                  }}
+                >
+                  Error fetching zone
+                </Th>
+              </tr>
+            ) : (
+              <tr>
+                <Th>Zone</Th>
+                <Th>Availability</Th>
+              </tr>
+            )}
           </thead>
           <tbody>
             {data?.slots?.map((slot: any) => {
-              const availNumber = slot.avail.replace(/\D/g, "");
-              const parsedNumber = parseInt(availNumber, 10);
-              const redZone = parsedNumber < 20;
-              const isOrangeZone = parsedNumber < 50 && parsedNumber >= 20;
+              const availNumber = slot.avail.replace(/\D/g, "")
+              const parsedNumber = parseInt(availNumber, 10)
+              const redZone = parsedNumber < 20
+              const isOrangeZone = parsedNumber < 50 && parsedNumber >= 20
               return (
                 <tr key={slot.zone}>
                   <Td>{slot.zone}</Td>
@@ -220,7 +238,7 @@ const AvailabilityItem = ({
                     {parsedNumber}
                   </Td>
                 </tr>
-              );
+              )
             })}
           </tbody>
         </Table>
@@ -276,7 +294,7 @@ const AvailabilityItem = ({
         </div>
       </BottomContainer>
     </AvailabilityItemContainer>
-  );
+  )
 }
 
 export default AvailabilityItem

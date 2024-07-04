@@ -22,8 +22,8 @@ const getAvailabilityZones = async (placedate: string, place: string) => {
     const data = await response.json()
     return data
   } catch (error) {
-    console.log("ERROR 1", error)
-    return error
+    // console.log("ERROR 1", error)
+    throw error
   }
 }
 
@@ -75,6 +75,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
     }
   } catch (e) {
     console.log("ERROR 2", e)
-    return NextResponse.json(e)
+    //return error code
+
+    return NextResponse.json(
+      {
+        message: "Error fetching zones",
+      },
+      { status: 400 }
+    )
   }
 }
