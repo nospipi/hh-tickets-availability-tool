@@ -6,6 +6,8 @@ import { useGetAvailabilityZones } from "@/react-query-hooks"
 import styled from "styled-components"
 import CloseIcon from "@mui/icons-material/Close"
 import CachedIcon from "@mui/icons-material/Cached"
+import NorthIcon from "@mui/icons-material/North"
+import SouthIcon from "@mui/icons-material/South"
 import { RotatingLines } from "react-loader-spinner"
 import { GlobalContext } from "@/app/ContextProvider"
 import places from "../../places.json"
@@ -222,20 +224,47 @@ const AvailabilityItem = ({
               const parsedNumber = parseInt(availNumber, 10)
               const redZone = parsedNumber < 20
               const isOrangeZone = parsedNumber < 50 && parsedNumber >= 20
+              const shouldShowArrow = slot.availChange !== "neutral"
+              const isPositive = slot.availChange === "positive"
+              const isNegative = slot.availChange === "negative"
               return (
                 <tr key={slot.zone}>
                   <Td>{slot.zone}</Td>
                   <Td
                     style={{
-                      //color: redZone ? "indianred" : "darkgreen",
                       color: redZone
                         ? "indianred"
                         : isOrangeZone
                         ? "orange"
                         : "darkgreen",
+                      position: "relative",
                     }}
                   >
                     {parsedNumber}
+                    {shouldShowArrow && isPositive && (
+                      <NorthIcon
+                        sx={{
+                          fontSize: "12px",
+                          color: "darkgreen",
+                          position: "absolute",
+                          right: "3px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                        }}
+                      />
+                    )}
+                    {shouldShowArrow && isNegative && (
+                      <SouthIcon
+                        sx={{
+                          fontSize: "12px",
+                          color: "indianred",
+                          position: "absolute",
+                          right: "3px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                        }}
+                      />
+                    )}
                   </Td>
                 </tr>
               )

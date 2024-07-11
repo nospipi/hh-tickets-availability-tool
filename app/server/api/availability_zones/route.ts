@@ -68,9 +68,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
     //if zone exists but is expired (more than 30s old), refresh and return
     if (existingZone && existingZoneExpired) {
       const zones = await getAvailabilityZones(placedate, place)
-      existingZone.slots = zones.slots
-      existingZone.timestamp = new Date().toISOString()
-      await existingZone.save()
+      // existingZone.slots = zones.slots
+      // existingZone.timestamp = new Date().toISOString()
+      // await existingZone.save()
+
+      await TicketsAvailabilityModel.updateOne(
+        { id },
+        { slots: zones.slots, timestamp: new Date().toISOString() }
+      )
+
       return NextResponse.json(existingZone)
     }
   } catch (e) {
