@@ -38,7 +38,7 @@ const EmptyMessageContainer = styled.div`
 //--------------------------------------------------------------------
 
 const Container = () => {
-  const { zoneDates, navBarMenuOpen } = useContext(GlobalContext)
+  const { zoneDates } = useContext(GlobalContext)
 
   return (
     <ListWrapper>
@@ -50,13 +50,9 @@ const Container = () => {
                 color: "#ff5454",
               }}
             >
-              {navBarMenuOpen ? (
-                <span>
-                  Make a date and site selection and click <b>Submit</b>
-                </span>
-              ) : (
-                "Make a date and site selection by clicking the calendar icon at the top left ↖"
-              )}
+              <span>
+                Make a date and site selection and click <b>Submit</b>
+              </span>
             </span>
           </EmptyMessageContainer>
         )}

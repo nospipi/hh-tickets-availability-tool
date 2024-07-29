@@ -12,8 +12,6 @@ type GlobalContextType = {
   setZoneDates: (value: ZoneDate[]) => void
   triggerRefetch: boolean
   setTriggerRefetch: (value: boolean) => void
-  navBarMenuOpen: boolean
-  setNavBarMenuOpen: (value: boolean) => void
 }
 
 const GlobalContext = createContext<GlobalContextType>({
@@ -21,14 +19,11 @@ const GlobalContext = createContext<GlobalContextType>({
   setZoneDates: () => {},
   triggerRefetch: false,
   setTriggerRefetch: () => {},
-  navBarMenuOpen: false,
-  setNavBarMenuOpen: () => {},
 })
 
 const GlobalContextProvider = ({ children }: { children: ReactNode }) => {
   const [zoneDates, setZoneDates] = useState<ZoneDate[]>([])
   const [triggerRefetch, setTriggerRefetch] = useState(false)
-  const [navBarMenuOpen, setNavBarMenuOpen] = useState(false)
 
   return (
     <GlobalContext.Provider
@@ -37,8 +32,6 @@ const GlobalContextProvider = ({ children }: { children: ReactNode }) => {
         setZoneDates,
         triggerRefetch,
         setTriggerRefetch,
-        navBarMenuOpen,
-        setNavBarMenuOpen,
       }}
     >
       {children}

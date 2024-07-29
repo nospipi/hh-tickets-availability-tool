@@ -16,7 +16,75 @@
     "label": "Ancient Agora"
   },
   {
+    "value": "000000005",
+    "label": "Roman Agora"
+  },
+  {
+    "value": "000000006",
+    "label": "Hadrian's Library"
+  },
+  {
+    "value": "000000003",
+    "label": "Kerameikos"
+  },
+  {
+    "value": "000000007",
+    "label": "Aristotle's School (Lyceum)"
+  },
+  {
     "value": "000000008",
     "label": "Knossos"
+  },
+  {
+    "value": "000000014",
+    "label": "Archaeological Museum of Chania"
+  },
+  {
+    "value": "000000009",
+    "label": "Archaeological Museum of Heraklion"
+  },
+  {
+    "value": "000000023",
+    "label": "Archaeological Museum of Delphi"
+  },
+  {
+    "value": "000000025",
+    "label": "Sanctuary of Asklepios (Epidaurus)"
+  },
+  {
+    "value": "000000027",
+    "label": "Treasury of Atreus (Mycenae)"
+  },
+  {
+    "value": "000000020",
+    "label": "Museum of Ancient Olympia"
+  },
+  {
+    "value": "000000011",
+    "label": "Museum Of Ancient Messene"
+  },
+  {
+    "value": "000000024",
+    "label": "Museum of Byzantine Culture"
+  },
+  {
+    "value": "000000013",
+    "label": "Sites & Museums of Aigai"
+  },
+  {
+    "value": "000000015",
+    "label": "Acropolis of Lindos"
+  },
+  {
+    "value": "000000017",
+    "label": "Akrotiri of Thera"
+  },
+  {
+    "value": "000000018",
+    "label": "Sanctuary of Asklepios (Kos)"
+  },
+  {
+    "value": "000000016",
+    "label": "Palace of the Grand Master (Rhodes)"
   }
 ]

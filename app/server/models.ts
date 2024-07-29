@@ -78,13 +78,9 @@ ticketsAvailabilitySchema.pre("updateOne", async function (next: any) {
 
     if (prevParsedNumber === currParsedNumber) {
       if (prevAvailChangeExpired) {
-        console.log("Expired")
-        // if previous change is more than 5 minutes old
         slot.availChange = "neutral" // reset to neutral
         slot.availChangeTimestamp = new Date().toISOString() // update timestamp
       } else {
-        console.log("NOT Expired")
-        // if previous change is less than 5 minutes old
         slot.availChange = prevAvailChange // keep previous change
 
         //dont update timestamp to keep tracking of time since last change

@@ -6,7 +6,7 @@ import * as Yup from "yup"
 import { useState, useContext } from "react"
 import { GlobalContext } from "@/app/ContextProvider"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
-import DateRangeIcon from "@mui/icons-material/DateRange"
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber"
 import CachedIcon from "@mui/icons-material/Cached"
 import { RotatingLines } from "react-loader-spinner"
 import Radio from "@mui/material/Radio"
@@ -161,6 +161,14 @@ const Button = styled.button<{ $noSelection?: boolean }>`
   //pointer-events: ${({ $noSelection }) => ($noSelection ? "none" : "all")};
 `
 
+const Title = styled.h1`
+  font-size: 14px;
+  position: "absolute";
+  left: "50%";
+  transform: "translateX(-50%)";
+  line-height: 0 !important;
+`
+
 //----------------------------------------------------------------
 
 const validationSchema = Yup.object().shape(
@@ -191,14 +199,8 @@ const validationSchema = Yup.object().shape(
 
 const NavBar = () => {
   const [singleSelection, setSingleSelection] = useState(true)
-  const {
-    zoneDates,
-    setZoneDates,
-    triggerRefetch,
-    setTriggerRefetch,
-    navBarMenuOpen,
-    setNavBarMenuOpen,
-  } = useContext(GlobalContext)
+  const { zoneDates, setZoneDates, triggerRefetch, setTriggerRefetch } =
+    useContext(GlobalContext)
 
   const handleTriggerRefetch = () => {
     if (!zoneDates.length) {
@@ -287,24 +289,15 @@ const NavBar = () => {
         return (
           <NavBarContainer>
             <TopBar>
-              <DateRangeIcon
-                titleAccess="Date selection"
+              <ConfirmationNumberIcon
                 fontSize="small"
                 sx={{
-                  cursor: "pointer",
+                  transform: "rotate(125deg)",
+                  color: "rgb(85 149 212)",
                 }}
-                onClick={() => setNavBarMenuOpen(!navBarMenuOpen)}
               />
 
-              <span
-                style={{
-                  position: "absolute",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                }}
-              >
-                HH E-Tickets Availability Tool
-              </span>
+              <Title>HH E-Tickets Availability Tool</Title>
               {isFetching ? (
                 <div
                   style={{
@@ -340,151 +333,149 @@ const NavBar = () => {
                 />
               )}
             </TopBar>
-            {navBarMenuOpen && (
-              <MenuBar>
-                <RadioWrapper>
-                  <RadioContainer>
-                    <span>Single</span>
-                    <Radio
-                      title="Single date selection"
-                      size="small"
-                      checked={singleSelection}
-                      onChange={async () => {
-                        setSingleSelection(true)
-                        await setFieldValue("dateRangeInputControl", null)
-                      }}
-                      sx={{
-                        padding: 0,
-                      }}
-                    />
-                  </RadioContainer>
-                  <RadioContainer>
-                    <span>Range</span>
-                    <Radio
-                      title="Date range selection"
-                      size="small"
-                      checked={!singleSelection}
-                      onChange={async () => {
-                        setSingleSelection(false)
-                        await setFieldValue("singleDateInputControl", null)
-                      }}
-                      sx={{
-                        padding: 0,
-                      }}
-                    />
-                  </RadioContainer>
-                </RadioWrapper>
-                <DateInputContainer>
-                  <select
-                    value={values.place}
-                    onChange={async (e) =>
-                      await setFieldValue("place", e.target.value)
-                    }
-                    title="Choose a site"
-                  >
-                    <option value="">Select a site</option>
-                    {places.map((place) => (
-                      <option key={place.value} value={place.value}>
-                        {place.label}
-                      </option>
-                    ))}
-                  </select>
-                  {singleSelection ? (
-                    <DatePicker
-                      format="dd.MM.yyyy"
-                      size="xs"
-                      placeholder="Date"
-                      appearance="subtle"
-                      placement="bottomEnd"
-                      cleanable
-                      oneTap
-                      onClean={async () =>
-                        await setFieldValue("singleDateInputControl", null)
-                      }
-                      value={values.singleDateInputControl}
-                      renderValue={(date) => {
-                        return moment(date).format("ddd D MMM, YY")
-                      }}
-                      onChange={async (date) => {
-                        if (!date) {
-                          return
-                        }
-                        await setFieldValue("singleDateInputControl", date)
-                      }}
-                    />
-                  ) : (
-                    <DateRangePicker
-                      format="dd.MM.yyyy"
-                      size="xs"
-                      placeholder="Date range"
-                      appearance="subtle"
-                      placement="bottomEnd"
-                      showHeader={false}
-                      onClean={async () =>
-                        await setFieldValue("dateRangeInputControl", null)
-                      }
-                      character="-"
-                      renderValue={([start, end]) => {
-                        return `${moment(start).format(
-                          "ddd D MMM, YY"
-                        )} - ${moment(end).format("ddd D MMM, YY")}`
-                      }}
-                      value={values.dateRangeInputControl}
-                      ranges={[
-                        {
-                          label: "Today",
-                          value: [new Date(), new Date()],
-                          //placement: "left",
-                        },
-
-                        {
-                          label: "Next week",
-                          value: [
-                            moment().toDate(),
-                            moment().add(7, "days").toDate(),
-                          ],
-                        },
-                        {
-                          label: "Next month",
-                          value: [
-                            moment().toDate(),
-                            moment().add(1, "month").toDate(),
-                          ],
-                        },
-                      ]}
-                      onChange={async (dates: any) => {
-                        if (!dates) {
-                          return
-                        }
-                        await setFieldValue("dateRangeInputControl", dates)
-                      }}
-                    />
-                  )}
-                </DateInputContainer>
-                <Tooltip
-                  title="Please make a selection first"
-                  placement="bottom"
-                  disableHoverListener={!itHasErrors}
-                >
-                  <Button
-                    type="submit"
-                    $noSelection={itHasErrors} // ⓘ styled components transient props
-                    onClick={() => {
-                      if (!itHasErrors) {
-                        handleSubmit()
-                      }
+            <MenuBar>
+              <RadioWrapper>
+                <RadioContainer>
+                  <span>Single</span>
+                  <Radio
+                    title="Single date selection"
+                    size="small"
+                    checked={singleSelection}
+                    onChange={async () => {
+                      setSingleSelection(true)
+                      await setFieldValue("dateRangeInputControl", null)
                     }}
-                  >
-                    <span>Submit</span>
-                    <CheckCircleIcon
-                      sx={{
-                        fontSize: "13px",
-                      }}
-                    />
-                  </Button>
-                </Tooltip>
-              </MenuBar>
-            )}
+                    sx={{
+                      padding: 0,
+                    }}
+                  />
+                </RadioContainer>
+                <RadioContainer>
+                  <span>Range</span>
+                  <Radio
+                    title="Date range selection"
+                    size="small"
+                    checked={!singleSelection}
+                    onChange={async () => {
+                      setSingleSelection(false)
+                      await setFieldValue("singleDateInputControl", null)
+                    }}
+                    sx={{
+                      padding: 0,
+                    }}
+                  />
+                </RadioContainer>
+              </RadioWrapper>
+              <DateInputContainer>
+                <select
+                  value={values.place}
+                  onChange={async (e) =>
+                    await setFieldValue("place", e.target.value)
+                  }
+                  title="Choose a site"
+                >
+                  <option value="">Select a site</option>
+                  {places.map((place) => (
+                    <option key={place.value} value={place.value}>
+                      {place.label}
+                    </option>
+                  ))}
+                </select>
+                {singleSelection ? (
+                  <DatePicker
+                    format="dd.MM.yyyy"
+                    size="xs"
+                    placeholder="Date"
+                    appearance="subtle"
+                    placement="bottomEnd"
+                    cleanable
+                    oneTap
+                    onClean={async () =>
+                      await setFieldValue("singleDateInputControl", null)
+                    }
+                    value={values.singleDateInputControl}
+                    renderValue={(date) => {
+                      return moment(date).format("ddd D MMM, YY")
+                    }}
+                    onChange={async (date) => {
+                      if (!date) {
+                        return
+                      }
+                      await setFieldValue("singleDateInputControl", date)
+                    }}
+                  />
+                ) : (
+                  <DateRangePicker
+                    format="dd.MM.yyyy"
+                    size="xs"
+                    placeholder="Date range"
+                    appearance="subtle"
+                    placement="bottomEnd"
+                    showHeader={false}
+                    onClean={async () =>
+                      await setFieldValue("dateRangeInputControl", null)
+                    }
+                    character="-"
+                    renderValue={([start, end]) => {
+                      return `${moment(start).format(
+                        "ddd D MMM, YY"
+                      )} - ${moment(end).format("ddd D MMM, YY")}`
+                    }}
+                    value={values.dateRangeInputControl}
+                    ranges={[
+                      {
+                        label: "Today",
+                        value: [new Date(), new Date()],
+                        //placement: "left",
+                      },
+
+                      {
+                        label: "Next week",
+                        value: [
+                          moment().toDate(),
+                          moment().add(7, "days").toDate(),
+                        ],
+                      },
+                      {
+                        label: "Next month",
+                        value: [
+                          moment().toDate(),
+                          moment().add(1, "month").toDate(),
+                        ],
+                      },
+                    ]}
+                    onChange={async (dates: any) => {
+                      if (!dates) {
+                        return
+                      }
+                      await setFieldValue("dateRangeInputControl", dates)
+                    }}
+                  />
+                )}
+              </DateInputContainer>
+              <Tooltip
+                title="Please make a selection first"
+                placement="bottom"
+                disableHoverListener={!itHasErrors}
+              >
+                <Button
+                  type="submit"
+                  $noSelection={itHasErrors} // ⓘ styled components transient props
+                  onClick={() => {
+                    if (!itHasErrors) {
+                      handleSubmit()
+                    }
+                  }}
+                >
+                  <span>Submit</span>
+                  <CheckCircleIcon
+                    sx={{
+                      fontSize: "13px",
+                    }}
+                  />
+                </Button>
+              </Tooltip>
+            </MenuBar>
           </NavBarContainer>
         )
       }}
