@@ -30,6 +30,7 @@ const NavBarContainer = styled.nav`
 const TopBar = styled.div`
   flex: 1;
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
@@ -162,11 +163,13 @@ const Button = styled.button<{ $noSelection?: boolean }>`
 `
 
 const Title = styled.h1`
-  font-size: 14px;
-  position: "absolute";
-  left: "50%";
-  transform: "translateX(-50%)";
-  line-height: 0 !important;
+  font-size: 12px;
+
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  //no wrap
+  white-space: nowrap;
 `
 
 //----------------------------------------------------------------
@@ -299,29 +302,11 @@ const NavBar = () => {
 
               <Title>HH E-Tickets Availability Tool</Title>
               {isFetching ? (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "8px",
-                    paddingRight: "2px",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: "11px",
-                      color: "dodgerblue",
-                    }}
-                  >
-                    List is loading...
-                  </span>
-                  <RotatingLines
-                    width="16"
-                    strokeColor="black"
-                    strokeWidth={"3"}
-                  />
-                </div>
+                <RotatingLines
+                  width="16"
+                  strokeColor="black"
+                  strokeWidth={"3"}
+                />
               ) : (
                 <CachedIcon
                   titleAccess="Refresh all"
@@ -336,7 +321,7 @@ const NavBar = () => {
             <MenuBar>
               <RadioWrapper>
                 <RadioContainer>
-                  <span>Single</span>
+                  <span>Single date</span>
                   <Radio
                     title="Single date selection"
                     size="small"
@@ -351,7 +336,7 @@ const NavBar = () => {
                   />
                 </RadioContainer>
                 <RadioContainer>
-                  <span>Range</span>
+                  <span>Date range</span>
                   <Radio
                     title="Date range selection"
                     size="small"
