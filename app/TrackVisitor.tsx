@@ -2,19 +2,19 @@
 import { useEffect } from "react"
 import axios from "axios"
 
-function TrackVisitor() {
+const TrackVisitor = () => {
   useEffect(() => {
     const triggerVisitorDetails = async () => {
       try {
-        await axios.get("/server/api/visitor-details")
+        await axios.get("/server/api/visitor-details");
       } catch (error) {
-        console.error("Error getting visitor details:", error)
+        console.error("Error getting visitor details:", error);
       }
-    }
-    triggerVisitorDetails()
-  }, [])
+    };
+    triggerVisitorDetails();
+  }, []);
 
-  return null
-}
+  return null;
+};
 
 export default TrackVisitor

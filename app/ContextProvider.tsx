@@ -2,10 +2,10 @@
 
 import { createContext, useState, ReactNode } from "react"
 
-type ZoneDate = {
-  placedate: string
-  place: string
-}
+export type ZoneDate = {
+  placedate: string;
+  place: string;
+};
 
 type GlobalContextType = {
   zoneDates: ZoneDate[]

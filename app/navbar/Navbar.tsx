@@ -47,7 +47,6 @@ const TopBar = styled.div`
 
 const MenuBar = styled.div`
   flex: 1;
-  //background-color: #dadada;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -80,11 +79,6 @@ const DateInputContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  /* @media (min-width: 550px) {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  } */
   select {
     border: none;
     border-radius: 6px;
@@ -96,9 +90,6 @@ const DateInputContainer = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
-    //width according the page width
-    //over 600px width 200px
-    //under 600px width 190px
     @media (max-width: 600px) {
       width: 150px;
     }
@@ -135,14 +126,8 @@ const Button = styled.button<{ $noSelection?: boolean }>`
   box-shadow: 0px 0px 5px #bebebe;
   color: #333;
   font-size: 11px;
-  //font-weight: bold;
   color: ${({ $noSelection }) => ($noSelection ? "#ccc" : "#1e7229;")};
   padding: 4px 10px;
-  /* transition: all 0.3s ease; */
-
-  /* &:hover {
-    box-shadow: 4px 4px 10px #bebebe, -4px -4px 10px #ffffff;
-  } */
 
   ${({ $noSelection }) =>
     !$noSelection &&
@@ -158,9 +143,7 @@ const Button = styled.button<{ $noSelection?: boolean }>`
   }
   opacity: ${({ $noSelection }) => ($noSelection ? 0.5 : 1)};
   cursor: ${({ $noSelection }) => ($noSelection ? "not-allowed" : "pointer")};
-  //disable pointer events
-  //pointer-events: ${({ $noSelection }) => ($noSelection ? "none" : "all")};
-`
+`;
 
 const Title = styled.h1`
   font-size: 12px;
@@ -170,7 +153,7 @@ const Title = styled.h1`
   transform: translateX(-50%);
   //no wrap
   white-space: nowrap;
-`
+`;
 
 //----------------------------------------------------------------
 
@@ -198,21 +181,21 @@ const validationSchema = Yup.object().shape(
       } as any),
   },
   [["singleDateInputControl", "dateRangeInputControl"]] //ciclyc dependency
-) as any
+) as any;
 
 const NavBar = () => {
-  const [singleSelection, setSingleSelection] = useState(true)
+  const [singleSelection, setSingleSelection] = useState(true);
   const { zoneDates, setZoneDates, triggerRefetch, setTriggerRefetch } =
-    useContext(GlobalContext)
+    useContext(GlobalContext);
 
   const handleTriggerRefetch = () => {
     if (!zoneDates.length) {
-      return
+      return;
     }
-    setTriggerRefetch(!triggerRefetch)
-  }
+    setTriggerRefetch(!triggerRefetch);
+  };
 
-  const isFetching = useIsFetching()
+  const isFetching = useIsFetching();
 
   return (
     <Formik
@@ -229,49 +212,49 @@ const NavBar = () => {
           const newDate = {
             placedate: moment(values.singleDateInputControl).format("YYYYMMDD"),
             place: values.place,
-          }
+          };
           const newZoneDates = _.uniqBy(
             [...zoneDates, newDate],
             (item) => `${item.placedate}-${item.place}`
-          )
-          const sortedZoneDates = _.sortBy(newZoneDates, "placedate")
-          //@ts-ignore
-          setZoneDates(sortedZoneDates)
+          );
+          const sortedZoneDates = _.sortBy(newZoneDates, "placedate");
 
-          resetForm()
+          setZoneDates(sortedZoneDates);
+
+          resetForm();
 
           setTimeout(() => {
-            validateForm()
-          }, 50)
+            validateForm();
+          }, 50);
         }
-        //@ts-ignore
+        //@ts-expect-error
         if (values.dateRangeInputControl?.length) {
-          const allDatesWithinRange = []
-          let currentDate = moment(values.dateRangeInputControl[0])
-          const endDate = moment(values.dateRangeInputControl[1])
+          const allDatesWithinRange = [];
+          let currentDate = moment(values.dateRangeInputControl[0]);
+          const endDate = moment(values.dateRangeInputControl[1]);
           while (currentDate <= endDate) {
-            allDatesWithinRange.push(currentDate.format("YYYYMMDD"))
-            currentDate = currentDate.add(1, "days")
+            allDatesWithinRange.push(currentDate.format("YYYYMMDD"));
+            currentDate = currentDate.add(1, "days");
           }
 
           const datesWithPlace = allDatesWithinRange.map((date: string) => ({
             placedate: date,
             place: values.place,
-          }))
+          }));
 
           const newZoneDates = _.uniqBy(
             [...zoneDates, ...datesWithPlace],
             (item) => `${item.placedate}-${item.place}`
-          )
-          const sortedZoneDates = _.sortBy(newZoneDates, "placedate")
-          //@ts-ignore
-          setZoneDates(sortedZoneDates)
+          );
+          const sortedZoneDates = _.sortBy(newZoneDates, "placedate");
 
-          resetForm()
+          setZoneDates(sortedZoneDates);
+
+          resetForm();
 
           setTimeout(() => {
-            validateForm()
-          }, 50)
+            validateForm();
+          }, 50);
         }
       }}
     >
@@ -287,7 +270,7 @@ const NavBar = () => {
         isSubmitting,
         validateForm,
       }) => {
-        const itHasErrors = Object.keys(errors).length > 0
+        const itHasErrors = Object.keys(errors).length > 0;
 
         return (
           <NavBarContainer>
@@ -327,8 +310,8 @@ const NavBar = () => {
                     size="small"
                     checked={singleSelection}
                     onChange={async () => {
-                      setSingleSelection(true)
-                      await setFieldValue("dateRangeInputControl", null)
+                      setSingleSelection(true);
+                      await setFieldValue("dateRangeInputControl", null);
                     }}
                     sx={{
                       padding: 0,
@@ -342,8 +325,8 @@ const NavBar = () => {
                     size="small"
                     checked={!singleSelection}
                     onChange={async () => {
-                      setSingleSelection(false)
-                      await setFieldValue("singleDateInputControl", null)
+                      setSingleSelection(false);
+                      await setFieldValue("singleDateInputControl", null);
                     }}
                     sx={{
                       padding: 0,
@@ -380,13 +363,13 @@ const NavBar = () => {
                     }
                     value={values.singleDateInputControl}
                     renderValue={(date) => {
-                      return moment(date).format("ddd D MMM, YY")
+                      return moment(date).format("ddd D MMM, YY");
                     }}
                     onChange={async (date) => {
                       if (!date) {
-                        return
+                        return;
                       }
-                      await setFieldValue("singleDateInputControl", date)
+                      await setFieldValue("singleDateInputControl", date);
                     }}
                   />
                 ) : (
@@ -404,7 +387,7 @@ const NavBar = () => {
                     renderValue={([start, end]) => {
                       return `${moment(start).format(
                         "ddd D MMM, YY"
-                      )} - ${moment(end).format("ddd D MMM, YY")}`
+                      )} - ${moment(end).format("ddd D MMM, YY")}`;
                     }}
                     value={values.dateRangeInputControl}
                     ranges={[
@@ -431,9 +414,9 @@ const NavBar = () => {
                     ]}
                     onChange={async (dates: any) => {
                       if (!dates) {
-                        return
+                        return;
                       }
-                      await setFieldValue("dateRangeInputControl", dates)
+                      await setFieldValue("dateRangeInputControl", dates);
                     }}
                   />
                 )}
@@ -448,7 +431,7 @@ const NavBar = () => {
                   $noSelection={itHasErrors} // ⓘ styled components transient props
                   onClick={() => {
                     if (!itHasErrors) {
-                      handleSubmit()
+                      handleSubmit();
                     }
                   }}
                 >
@@ -462,10 +445,10 @@ const NavBar = () => {
               </Tooltip>
             </MenuBar>
           </NavBarContainer>
-        )
+        );
       }}
     </Formik>
-  )
-}
+  );
+};
 
 export default NavBar

@@ -13,36 +13,36 @@ if (!cached) {
   cached = global.mongoose = { conn: null, promise: null }
 }
 
-async function connectDB() {
+const connectDB = async () => {
   if (cached.conn) {
-    console.log("🚀 Using cached mongodb connection")
-    return cached.conn
+    console.log("🚀 Using cached mongodb connection");
+    return cached.conn;
   }
 
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-    }
+    };
 
     cached.promise = connect(MONGODB_URI, opts)
       .then((mongoose) => {
-        console.log("✅ New connection to mongodb established")
-        return mongoose
+        console.log("✅ New connection to mongodb established");
+        return mongoose;
       })
       .catch((error) => {
-        console.error("❌ Connection to mongodb database failed")
-        throw error
-      })
+        console.error("❌ Connection to mongodb database failed");
+        throw error;
+      });
   }
 
   try {
-    cached.conn = await cached.promise
+    cached.conn = await cached.promise;
   } catch (e) {
-    cached.promise = null
-    throw e
+    cached.promise = null;
+    throw e;
   }
 
-  return cached.conn
-}
+  return cached.conn;
+};
 
 export default connectDB

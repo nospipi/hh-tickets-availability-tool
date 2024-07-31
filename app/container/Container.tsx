@@ -1,7 +1,7 @@
 import AvailabilityItem from "../availabity-items/AvailabilityItem"
 import styled from "styled-components"
 import { useContext } from "react"
-import { GlobalContext } from "@/app/ContextProvider"
+import { GlobalContext, ZoneDate } from "@/app/ContextProvider";
 
 //--------------------------------------------------------------------
 
@@ -9,7 +9,7 @@ const ListWrapper = styled.div`
   overflow: hidden;
   padding-top: 10px;
   padding-bottom: 10px;
-`
+`;
 
 const ListContainer = styled.div`
   display: grid;
@@ -22,7 +22,7 @@ const ListContainer = styled.div`
   padding-right: 10px;
   padding-left: 10px;
   overflow-y: auto;
-`
+`;
 
 const EmptyMessageContainer = styled.div`
   position: absolute;
@@ -33,12 +33,12 @@ const EmptyMessageContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 10px;
-`
+`;
 
 //--------------------------------------------------------------------
 
 const Container = () => {
-  const { zoneDates } = useContext(GlobalContext)
+  const { zoneDates } = useContext(GlobalContext);
 
   return (
     <ListWrapper>
@@ -56,7 +56,7 @@ const Container = () => {
             </span>
           </EmptyMessageContainer>
         )}
-        {zoneDates.map((zoneDate: any) => (
+        {zoneDates.map((zoneDate: ZoneDate) => (
           <AvailabilityItem
             key={`${zoneDate.placedate}-${zoneDate.place}`}
             placedate={zoneDate.placedate}
@@ -65,7 +65,7 @@ const Container = () => {
         ))}
       </ListContainer>
     </ListWrapper>
-  )
-}
+  );
+};
 
 export default Container

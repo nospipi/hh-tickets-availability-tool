@@ -11,19 +11,9 @@ import SouthIcon from "@mui/icons-material/South"
 import { RotatingLines } from "react-loader-spinner"
 import { GlobalContext } from "@/app/ContextProvider"
 import places from "../../places.json"
+import { Slot } from "../server/models";
 
 //--------------------------------------------------------------------
-
-// <CachedIcon
-//   onClick={closeForm}
-//   fontSize="large"
-//   sx={{
-//     color: "white",
-//     cursor: "pointer",
-//     backgroundColor: "rgb(148 71 71)",
-//     borderBottomLeftRadius: "5px",
-//   }}
-// />
 
 const AvailabilityItemContainer = styled.div`
   display: flex;
@@ -43,13 +33,13 @@ const AvailabilityItemContainer = styled.div`
     color: #777;
     align-self: flex-start;
   }
-`
+`;
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   font-size: 12px;
-`
+`;
 
 const Th = styled.th`
   background-color: #f5f5f5;
@@ -59,7 +49,7 @@ const Th = styled.th`
   border: 1px solid #e9ecef;
   font-weight: 600;
   padding: 5px;
-`
+`;
 
 const Td = styled.td`
   background-color: #fff;
@@ -67,7 +57,7 @@ const Td = styled.td`
   border: 1px solid #e9ecef;
   text-align: center;
   padding: 5px;
-`
+`;
 
 const TopContainer = styled.div`
   display: flex;
@@ -80,7 +70,7 @@ const TopContainer = styled.div`
     color: black;
     font-size: 10px;
   }
-`
+`;
 
 const BottomContainer = styled.div`
   width: 100%;
@@ -88,7 +78,7 @@ const BottomContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-`
+`;
 
 const StyledCloseIcon = styled(CloseIcon)`
   font-size: 12px;
@@ -96,7 +86,7 @@ const StyledCloseIcon = styled(CloseIcon)`
   &:hover {
     color: indianred;
   }
-`
+`;
 
 //--------------------------------------------------------------------
 
@@ -104,11 +94,11 @@ const AvailabilityItem = ({
   placedate,
   place,
 }: {
-  placedate: string
-  place: string
+  placedate: string;
+  place: string;
 }) => {
-  const { triggerRefetch, zoneDates, setZoneDates } = useContext(GlobalContext)
-  const placeName = places.find((item) => item.value === place)?.label
+  const { triggerRefetch, zoneDates, setZoneDates } = useContext(GlobalContext);
+  const placeName = places.find((item) => item.value === place)?.label;
 
   const {
     data,
@@ -119,27 +109,22 @@ const AvailabilityItem = ({
     dataUpdatedAt,
     refetch,
     isRefetching,
-  } = useGetAvailabilityZones(placedate, place)
-  placedate
-
-  // console.log("data", data)
-  // console.log("error", isError)
+  } = useGetAvailabilityZones(placedate, place);
+  placedate;
 
   useEffect(() => {
-    refetch()
-  }, [triggerRefetch, refetch])
+    refetch();
+  }, [triggerRefetch, refetch]);
 
   if (isLoading) {
     //show loading only on initial load
-    return null
+    return null;
   }
 
-  // if (error) {
-  //   return <span>Error: {error.message}</span>
-  // }
-  //console.log("data", data)
-  const formattedDate = moment(placedate).format("DD/MM/YYYY ddd")
-  const formattedUpdatedAt = moment(dataUpdatedAt).format("DD/MM/YYYY HH:mm:ss")
+  const formattedDate = moment(placedate).format("DD/MM/YYYY ddd");
+  const formattedUpdatedAt = moment(dataUpdatedAt).format(
+    "DD/MM/YYYY HH:mm:ss"
+  );
 
   return (
     <AvailabilityItemContainer>
@@ -190,9 +175,9 @@ const AvailabilityItem = ({
                 const updatedZoneDates = zoneDates.filter(
                   (item) =>
                     !(item.placedate === placedate && item.place === place)
-                )
-                //@ts-ignore
-                setZoneDates(updatedZoneDates)
+                );
+
+                setZoneDates(updatedZoneDates);
               }}
             />
           </div>
@@ -219,14 +204,14 @@ const AvailabilityItem = ({
             )}
           </thead>
           <tbody>
-            {data?.slots?.map((slot: any) => {
-              const availNumber = slot.avail.replace(/\D/g, "")
-              const parsedNumber = parseInt(availNumber, 10)
-              const redZone = parsedNumber < 20
-              const isOrangeZone = parsedNumber < 50 && parsedNumber >= 20
-              const shouldShowArrow = slot.availChange !== "neutral"
-              const isPositive = slot.availChange === "positive"
-              const isNegative = slot.availChange === "negative"
+            {data?.slots?.map((slot: Slot) => {
+              const availNumber = slot.avail.toString().replace(/\D/g, "");
+              const parsedNumber = parseInt(availNumber, 10);
+              const redZone = parsedNumber < 20;
+              const isOrangeZone = parsedNumber < 50 && parsedNumber >= 20;
+              const shouldShowArrow = slot.availChange !== "neutral";
+              const isPositive = slot.availChange === "positive";
+              const isNegative = slot.availChange === "negative";
               return (
                 <tr key={slot.zone}>
                   <Td>{slot.zone}</Td>
@@ -267,7 +252,7 @@ const AvailabilityItem = ({
                     )}
                   </Td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </Table>
@@ -323,7 +308,7 @@ const AvailabilityItem = ({
         </div>
       </BottomContainer>
     </AvailabilityItemContainer>
-  )
-}
+  );
+};
 
 export default AvailabilityItem
